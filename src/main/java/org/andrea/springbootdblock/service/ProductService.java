@@ -5,6 +5,8 @@ import jakarta.transaction.Transactional;
 import org.andrea.springbootdblock.dto.request.ProductRequest;
 import org.andrea.springbootdblock.dto.response.ProductResponse;
 import org.andrea.springbootdblock.entity.Product;
+import org.andrea.springbootdblock.exception.custom.OptimisticLockFailureException;
+import org.andrea.springbootdblock.exception.custom.ProductNotFoundException;
 import org.andrea.springbootdblock.mapper.ProductMapper;
 import org.andrea.springbootdblock.repository.ProductRepository;
 import org.andrea.springbootdblock.repository.ProductRepositoryPessimisticLock;
@@ -35,7 +37,7 @@ public class ProductService {
     @Transactional
     public ProductResponse updateProductOptimistic(UUID guid, int newQuantity) {
         Product product = productRepository.findByGuid(guid)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new ProductNotFoundException("Product not found"));
 
         product.setQuantity(newQuantity);
 
@@ -44,14 +46,14 @@ public class ProductService {
             return ProductMapper.INSTANCE.productToProductResponse(product);
 
         } catch (OptimisticLockException e) {
-            throw new RuntimeException("Optimistic locking failure, please retry", e);
+            throw new OptimisticLockFailureException("Optimistic locking failure, please retry");
         }
     }
 
     @Transactional
     public ProductResponse updateProductPessimistic(UUID guid, int newQuantity) {
         Product product = productRepositoryPessimisticLock.findByGuid(guid)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new ProductNotFoundException("Product not found"));
 
         product.setQuantity(newQuantity);
 
