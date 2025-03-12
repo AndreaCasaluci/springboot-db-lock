@@ -5,7 +5,6 @@ The project also includes Flyway for database migrations, database triggers for 
 tracking, and Docker Compose for easy setup of the PostgreSQL database.
 
 ## Features
-___
 - **Optimistic Locking:** Ensures that no two transactions can modify the same data 
   simultaneously by using versioning.
 - **Pessimistic Locking:** Prevents conflicts by locking the rows in the database during a transaction.
@@ -13,14 +12,12 @@ ___
   for auditing purposes.
 
 ## Technologies Used
-___
 - **Spring Boot** (Java 17+)
 - **Hibernate JPA**
 - **PostgreSQL**
 - **Flyway** for _Database Migration_
 
 ## Getting Started
-___
 ### Prerequisites
 Ensure the following are installed:
 - **Docker** and **Docker Compose**
@@ -61,7 +58,6 @@ automatically run SQL scripts in the `src/main/resources/db/migration/` folder. 
 - Create the necessary tables (`products` and `products_history`)
 - Add the appropriate indexes and constraints
 - Ensure database schema consistency across different environments
-___
 
 ## Locking Strategies
 ### Optimistic Locking
